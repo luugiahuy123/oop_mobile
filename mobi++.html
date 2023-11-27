@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    class Mobile {
+        constructor() {
+            this.battery = 100;
+            this.draftMessage = "";
+            this.inbox = [];
+            this.sentMessages = [];
+            this.isPowerOn = false;
+        }
+
+        checkBatteryStatus() {
+            return this.battery;
+        }
+
+        turnOn() {
+            if (!this.isPowerOn) {
+                this.isPowerOn = true;
+                console.log("dien thoai da duoc bat");
+            } else {
+                console.log("dien thoai da duoc bat truoc do")
+            }
+        }
+
+        turnOff() {
+            if (this.isPowerOn) {
+                this.isPowerOn = false;
+                console.log("dien thoai da duoc tat.");
+            } else {
+                console.log("dien thoai da dc tat truoc do");
+            }
+        }
+
+        chargeBattery() {
+            if (this.battery < 100) {
+                this.battery++;
+                console.log("Dien thoai dang dc sac pin");
+            } else {
+                console.log("pin dt da day");
+            }
+        }
+
+        composeMessage(message) {
+            if (!this.isPowerOn) {
+                console.log("dt chua dc bat");
+                return;
+            }
+            this.draftMessage = message;
+            console.log(`da xoan tin nhan : ${message}`);
+        }
+
+        receiveMessage(message) {
+            if (!this.isPowerOn) {
+                console.log("Điện thoại chưa được bật.");
+                return;
+            }
+
+            this.inbox.push(message);
+            console.log(`Đã nhận tin nhắn mới từ số điện thoại: "${message}".`);
+        }
+
+        sendMessage(phone, message) {
+            if (!this.isPowerOn) {
+                console.log("Điện thoại chưa được bật.");
+                return;
+            }
+
+            phone.receiveMessage(message);
+            this.sentMessages.push(message);
+            this.battery--;
+            console.log(`Đã gửi tin nhắn đến số điện thoại: "${message}".`);
+        }
+
+        checkInbox() {
+            if (!this.isPowerOn) {
+                console.log("Điện thoại chưa được bật.");
+                return;
+            }
+
+            console.log("Tin nhắn trong hộp thư đến:");
+            this.inbox.forEach((message, index) => {
+                console.log(`Tin ${index + 1}: "${message}".`);
+            });
+        }
+
+        checkSentMessages() {
+            if (!this.isPowerOn) {
+                console.log("Điện thoại chưa được bật.");
+                return;
+            }
+
+            console.log("Tin nhắn đã gửi:");
+            this.sentMessages.forEach((message, index) => {
+                console.log(`Tin ${index + 1}: "${message}".`);
+            });
+        }
+    }
+
+    // Kịch bản sử dụng
+    const nokia = new Mobile();
+    const iphone = new Mobile();
+
+    nokia.turnOn();
+    iphone.turnOn();
+
+    nokia.composeMessage("Xin chào! Đây là tin nhắn từ Nokia.");
+    nokia.sendMessage(iphone, "Xin chào! Đây là tin nhắn từ Nokia.");
+
+    iphone.checkInbox();
+
+    nokia.turnOff();
+    iphone.turnOff();
+
+</script>
+</body>
+</html>
